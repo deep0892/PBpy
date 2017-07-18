@@ -1,0 +1,1 @@
+<speak>Dear Customer. Greetings from Policy <prosody rate="x-fast">bazaar</prosody>. This call is confirmation call regarding the term insurance from $ with policy number <say-as interpret-as="spell-out">$</say-as>. Press 1 if you have received the soft copy. Press 2 if you haven't.</speak>
