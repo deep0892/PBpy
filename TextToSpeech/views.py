@@ -79,10 +79,15 @@ def save_polly(policyno, insurer,leadid,customerId):
             return obj
 
 
-def give_a_call(mobileno):  
+def give_a_call(mobileno,appidsource=''):  
     f= open(os.path.join(BASE, "configurations/exotelconfig.txt"),'r')
     f=f.read().split('\n')
-    appid=f[0].split('=')[1]
+    if appidsource=='':
+        appid=f[0].split('=')[1]
+    else:
+        appid=f[5].split('=')[1]
+    
+    print('appid', appid)
     url=f[1].split('=')[1]
     CallerId=f[2].split('=')[1]
     CallType=f[3].split('=')[1]
@@ -127,6 +132,19 @@ def pollyexotel(request):
     filename=obj["filename"]
     save_res(leadId,customerId,policyno,insurer,mobileno,url,sid)   
     return Response(status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def samedayexpiryIVR(request):    
+    data=request.data
+    try:
+        leadId=data["leadId"]
+        customerId=data["customerId"]        
+        mobileno=data["mobileno"]
+    except:
+        return HttpResponse(status=400)    
+    sid=give_a_call(mobileno,"SDE")  
+    save_res(leadId,customerId,'','',mobileno,'',sid)   
+    return Response(status=status.HTTP_200_OK)    
 
 
 @api_view(['GET'])

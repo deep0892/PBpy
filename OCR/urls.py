@@ -7,7 +7,6 @@ urlpatterns = [
     url(r'query', query),
     url(r'docstatus', get_doc_status),
     url(r'upload', fileupload),
-    url(r'polly', pollyexotel),
-    
+    url(r'polly', pollyexotel),    
 
 ]

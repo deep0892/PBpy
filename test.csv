@@ -1,0 +1,21 @@
+count,text,type
+1,ET57653,Engine_Number
+1,ET57653,engine_number_pattern
+2,fgcare@futuregenerali.in,Email
+1,Future Generali,Previous_Insurer
+1,Sushila Singh,Full_Name
+1,HR43B6874,Registration_Number
+1,SURENDER SINGH,Nominee
+1,Spouse,Nominee_Relationship
+1,44,Nominee_Age
+1,V,Variant_Only
+1,ECOSPORT 1.5 TDCI TITANIUM,model_only_pattern
+1,20,Previous_NCB
+1,FORD,Make
+3,V3711953,Policy_Number
+1,Mrs.,Title
+1,MAJAXXMRKAET576,Chassis_Number
+1,KOSLI,RTO
+1,ECOSPORT 1.5 TDCI TITANIUM,Model_Variant
+1,Sushila Singh,name_pattern
+1,2014,Year_of_Manufacturing

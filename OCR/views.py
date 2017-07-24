@@ -14,6 +14,8 @@ import time
 from requests.auth import HTTPBasicAuth
 from pymongo import MongoClient
 import datetime
+import json
+import csv
 
 #for opening and extracting values from configuration file
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -137,6 +139,37 @@ def insertmongo(data):
     print("Inserted")
     return
 
+def convertJsonToCSV(data):
+    '''emp_data = '{"employee_details":' + data + '}'
+    print(emp_data)
+    employee_parsed = json.loads(employee_data)
+    emp_data = employee_parsed['employee_details']
+    # open a file for writing
+
+    employ_data = open('EmployData.csv', 'w')
+
+    # create the csv writer object
+
+    csvwriter = csv.writer(employ_data)
+
+    count = 0
+
+    for emp in emp_data:
+        if count == 0:
+            header = emp.keys()
+            csvwriter.writerow(header)
+            count += 1
+        csvwriter.writerow(emp.values())
+    employ_data.close()'''
+
+    rows = json.loads(json.dumps(data))
+    with open('test.csv', 'wb+') as f:
+        dict_writer = csv.DictWriter(f, fieldnames=['count', 'text', 'type'])
+        dict_writer.writeheader()
+        dict_writer.writerows(rows)
+
+    return
+
 def fileupload(request):
     if request.method=="POST" and "uploadfile" in request.POST:
         print("in post")
@@ -165,7 +198,8 @@ def fileupload(request):
                 sort=mdata
                 value = {'type' : sorted(sort, key=lambda x: x['type'], reverse=False)}
                 totaldata.append(value['type'])
-                filenames.append(str(f))                
+                filenames.append(str(f))     
+                convertJsonToCSV(mdata)       
                 insertmongo(mdata)
                 if len(files)==count:
                    return render(request,'upload.html',{"response":totaldata,"filenames":filenames})
@@ -192,7 +226,7 @@ def fileupload(request):
         value = {'type' : sorted(sort, key=lambda x: x['type'], reverse=False)}
         totaldata=[]
         totaldata.append(value['type'])
-        
+
         return render(request,'upload.html',{"response":totaldata,"filenames":'Uploaded from URL'})
     return render(request,'upload.html')
 

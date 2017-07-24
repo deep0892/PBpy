@@ -1,5 +1,1 @@
-appid=133848
-url=https://policybazaar2:d147cbf154e05ffeca727caf197ad6db24b6f24f@api.exotel.com/v1/Accounts/policybazaar2/Calls/connect
-callerid=01139585604
-calltype=trans
-Authorization=Basic cG9saWN5YmF6YWFyMjpkMTQ3Y2JmMTU0ZTA1ZmZlY2E3MjdjYWYxOTdhZDZkYjI0YjZmMjRm
+
