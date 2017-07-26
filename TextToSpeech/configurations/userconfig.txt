@@ -1,0 +1,4 @@
+region_name$eu-west-1
+aws_access_key_id$AKIAJJQS2DJHTM6WW2UQ
+aws_secret_access_key$CRPcAP+3hm3NBAHgsYx0MImO6nvk+Q3txKxXK2iL
+

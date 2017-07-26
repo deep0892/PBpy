@@ -1,0 +1,4 @@
+appid:
+133848
+url:
+https://policybazaar2:d147cbf154e05ffeca727caf197ad6db24b6f24f@api.exotel.com/v1/Accounts/policybazaar2/Calls/connect

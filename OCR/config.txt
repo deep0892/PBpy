@@ -1,0 +1,7 @@
+username=97dedc77-d631-4e69-a6ab-8dc949843b19
+password=e7iutWmcilLD
+version=2017-06-25
+enviornment_id=22a3bad2-b590-4e31-826f-6ebb7006b951
+collection_id=9bc0e287-cc42-4649-b3d6-5d81122e1cce
+
+

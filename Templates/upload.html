@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="uploader ">
+        <form action="" method="post" enctype="multipart/form-data">
+            Choose Files: <input type="file" name="uploads" multiple>
+            <button type="Submit" onclick="disable()" name="uploadfile">Submit</button> {% csrf_token %}
+        </form>
+
+        <br><br>
+
+        <form action="" method="post" enctype="multipart/form-data">
+            Enter URL for file upload: <input type="text" name="fileurl">
+            <button type="Submit" onclick="disable()" name="uploadfileurl">Submit</button> {% csrf_token %}
+        </form>
+
+
+        <h1>{{filenames}}</h1>
+        {% if response %} {% for values in response %}
+        <h1>Document:</h1>
+        <table style="width:100%">
+            <tr>
+                <th>Count</th>
+                <th>Text</th>
+                <th>Type</th>
+            </tr>
+
+            {% for key in values %}
+            <tr>
+                <td>{{key.count}}</td>
+                <td>{{key.type}}</td>
+                <td>{{key.text}}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        {% endfor%} {% endif %}
+    </div>
+</body>
+
+</html>
+
+<style>
+    .uploaded {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+</style>
+<script>
+    function disable() {
+        var tag = document.getElementsByClassName("uploader");
+        tag[0].classList.add('uploaded');
+
+    }
+</script>
