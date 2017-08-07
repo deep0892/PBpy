@@ -227,15 +227,21 @@ def saveExotelResponse(request):
              return HttpResponse(status=200)
          return HttpResponse(status=401)
 
-import schedule
-import time
-import threading
 
-
-def job():
-    print("in job")
-    url="http://pblabsapi.policybazaar.com/texttospeech/polly"
-
+@api_view(['POST'])
+def getfinaldetails(request):
+    data=request.data
+    print(data)
+    callSid=data['callsid']
+    print(callSid)
+    url="https://policybazaar2:d147cbf154e05ffeca727caf197ad6db24b6f24f@twilix.exotel.in/v1/Accounts/policybazaar2/Calls/"+callSid
+    print(url)
+    r=requests.get(url)
+    print(r.content)
+    root = ET.fromstring(r.content)
+    duration=root[0][11].text
+    print(duration)
+    
     f= open(os.path.join(BASE, "configurations/databaseconfig.txt"),'r').read()
     f=f.split('\n')
     username=f[0].split(':')[1]
@@ -245,19 +251,11 @@ def job():
     con_string ='DRIVER=FreeTDS;DSN=%s;UID=%s;PWD=%s;DATABASE=%s;' % (datasource, username, password ,db)
     conn = pyodbc.connect(con_string)
     cursor = conn.cursor()
+    query="INSERT INTO PBCROMA.MTX.VoiceUrlData_Response(callsid,duration) VALUES ('"+callSid+"','"+duration+"');"
+    print(query)
+    cursor.execute(query)
+    conn.commit()
 
-    cursor.execute('MTX.getPolicyDetails_IVR')
-    custinfo=cursor.fetchall()
 
-    for customer in custinfo:
-        payload = {
-            "leadId":"1223",
-            "customerId":"123423",
-            "policyno":"14",
-            "insurer":"bajaj",
-            "mobileno":"9654019975"
-        }
 
-        r=requests.post(url, data=payload)
-
-t = threading.Timer(86400, job)
+    return HttpResponse(status=200)

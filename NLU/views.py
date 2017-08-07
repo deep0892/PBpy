@@ -21,14 +21,17 @@ import pandas as pd
 import csv
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 import watson_developer_cloud.natural_language_understanding.features.v1 as Features
+from datetime import datetime
 
 
 
 @api_view(['POST'])
 def result(request):
     
-	document_conversion = watson_developer_cloud.DocumentConversionV1(username='431b34ce-91b3-416e-bbfc-ae1bc4fcfb0c',password='JWfhvOBMFPrW',version='2015-12-15')
+	tstart = datetime.now()
 
+	document_conversion = watson_developer_cloud.DocumentConversionV1(username='431b34ce-91b3-416e-bbfc-ae1bc4fcfb0c',password='JWfhvOBMFPrW',version='2015-12-15')
+	
 	natural_language_understanding = NaturalLanguageUnderstandingV1(username="d4f8f1c2-741c-4af0-8dcf-b9b8106538fa",password="MtWIMvKCU8UY",version="2017-02-27")
 
 
@@ -39,6 +42,11 @@ def result(request):
 
 	ins_names = {"Aegon Religare":"1",	"Apollo Munich":"2",	"Bajaj Allianz":"4",	"Bharti Axa":"6",	"Cholamandalam":"10",	"CignaTTK":"11",	"Future Generali":"15",	"HDFC ERGO":"17",	"HDFC Life":"18",	"ICICI Lombard":"19",	"Iffco Tokio":"22",	"L&T":"26",	"Liberty Videocon":"27",	"Max Bupa":"30",	"National Insurance":"32",	"New India Assurance":"33",	"Reliance":"35",	"Religare":"37",	"Royal Sundaram":"38",	"SBI":"40",	"Star Health":"43",	"Tata AIG":"44",	"Oriental":"47",	"United Insurance":"48",	"Universal Sompo":"49",	"Raheja QBE":"50",	"Blue Ribbons":"58",	"PolicyBazaar":"61",	"Health":"63",	"Aditya Birla":"64"}
 	
+	t1=datetime.now()
+	print "Declaring big vars"
+	print(t1-tstart)
+
+
 	data=request.data
 	try:
 		url=data['url']
@@ -48,9 +56,17 @@ def result(request):
 	testfile = urllib.URLopener()
 	testfile.retrieve(url, "ex_pdf.pdf")
 
+	t2=datetime.now()
+	print "Downloading file: "
+	print (t2-t1)
+
 	with open('ex_pdf.pdf', 'rb') as document1:
 		config1 = {'conversion_target': DocumentConversionV1.NORMALIZED_TEXT}
 		text = (document_conversion.convert_document(document=document1, config=config1, media_type='application/pdf').content)
+
+	t3=datetime.now()
+	print "Getting converted text from DocumentConversion: "
+	print (t3-t2)
 
 	new_text = text
 	#new_text = text.replace('\n', '')
@@ -85,6 +101,10 @@ def result(request):
 		
 	os.remove('ex_pdf.pdf')
 
+	t4=datetime.now()
+	print "Formatting document for nlu: "
+	print (t4-t3)
+
 
 	
 
@@ -95,7 +115,7 @@ def result(request):
 	for i in range (0, len(store)):
 		#print str(i) + "loop"
 		#response = ""
-		response = natural_language_understanding.analyze(text=store[i],features=[Features.Entities(emotion=False,sentiment=False,limit=250,model = "20:919b3809-bb59-4b37-bb26-2249ef7d261b"),Features.Keywords(emotion=False,sentiment=False,limit=2)])
+		response = natural_language_understanding.analyze(text=store[i],features=[Features.Entities(emotion=False,sentiment=False,limit=250),Features.Keywords(emotion=False,sentiment=False,limit=2)])
 		response1 = natural_language_understanding.analyze(text=store[i],features=[Features.Entities(emotion=True,sentiment=True,limit=2),Features.Keywords(emotion=True,sentiment=True,limit=2)])
 		#response = str(response)
 		"""
