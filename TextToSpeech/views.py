@@ -220,6 +220,17 @@ def saveExotelResponse(request):
              con_string ='DRIVER=FreeTDS;DSN=%s;UID=%s;PWD=%s;DATABASE=%s;' % (datasource, username, password ,db)
              conn = pyodbc.connect(con_string)
              cursor = conn.cursor()
+
+             cursor.execute("SELECT * FROM PBCROMA.MTX.VOICEURLDATA (nolock) WHERE callsid='"+callsid+"';")
+             query_result=cursor.fetchone()
+
+             if query_result==None:
+                print("No result is found for given Sid")
+             else:
+                print("The given sid is already present in the database")
+
+
+
              query="INSERT INTO PBCROMA.MTX.VoiceUrlData_Response(callsid,duration,endtime,flowid,url,custresponse,currenttime,calltype) VALUES ('"+callSid+"','"+DialCallDuration+"','"+EndTime+"','"+flow_id+"','"+RecordingUrl+"','"+digits+"','"+CurrentTime+"','"+CallType+"');"
              print(query)
              cursor.execute(query)
@@ -241,7 +252,7 @@ def getfinaldetails(request):
     root = ET.fromstring(r.content)
     duration=root[0][11].text
     print(duration)
-    
+
     f= open(os.path.join(BASE, "configurations/databaseconfig.txt"),'r').read()
     f=f.split('\n')
     username=f[0].split(':')[1]
